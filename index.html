@@ -301,7 +301,242 @@ int[][] G = { { 0, 9, 75, 7, 0 },  <br>
   <br>
 g.Prim(G, V);  <br>
 }  <br>
-}  <br>
+}  <br><br>
+5. To write a JAVA program to implement Prims algorithm using
+Greedy method. <br><br>
+Aim: Program to implement Kruskals’s algorithm using Greedy method<br>
+Alg-  <br>
+<br>Step 1:Start at any node in the graph <br>
+Step 2:Mark the starting node as reached <br>
+Step 3: Mark all the other nodes in the graph as unreached <br>
+Step 4: Right now, the Minimum cost Spanning Tree (MST) consists of the starting node <br>
+Step5: Sort all the edges from low weight to high weight. <br>
+Step 6: Take the edge with the lowest weight and use it to connect the vertices of graph. <br>
+Step 7: If adding an edge creates a cycle, then reject that edge and go for the next least <br>
+weight edge. <br>
+Step 8: Keep adding edges until all the vertices are connected and a Minimum Spanning <br>
+Tree (MST) is obtained. <br> <br>
+import java.io.*;<br>
+import java.lang.*;<br>
+import java.util.*;<br>
+<br>
+class kruskals {       <br> 
+class subset {<br>
+int parent, rank;<br>
+};       <br>
+class Edge implements Comparable<Edge> {<br>
+int source, destination, weight; <br>
+public int compareTo(Edge that)<br>
+{<br>
+return this.weight - that.weight;<br>
+}<br>
+};        <br>
+int V, E; // V is no. of vertices & E is no.of edges<br>
+Edge edge[]; // collection of all edges<br>
+kruskals(int v, int e)       <br>
+{<br>
+V = v;<br>
+E = e;<br>
+edge = new Edge[E];<br>
+for (int i = 0; i < e; i++)<br>
+edge[i] = new Edge();<br>
+}      <br>
+int find(subset subsets[], int i)<br>
+{       <br>
+if (subsets[i].parent != i)<br>
+{<br>
+subsets[i].parent= find(subsets, subsets[i].parent);<br>
+}<br>
+return subsets[i].parent;<br>
+}<br>
+void Union(subset subsets[], int x, int y)<br>
+{<br>
+int xroot = find(subsets, x);<br>
+int yroot = find(subsets, y);                <br>      
+if (subsets[xroot].rank < subsets[yroot].rank)<br>
+subsets[xroot].parent = yroot;<br>
+else if (subsets[xroot].rank > subsets[yroot].rank)<br>
+subsets[yroot].parent = xroot;                    <br>
+else {<br>
+subsets[yroot].parent = xroot;<br>
+subsets[xroot].rank++;<br>
+}<br>
+}<br>
+void KruskalMST() <br>
+{<br>
+Edge result[] = new Edge[V];    <br> 
+int e = 0;      <br>
+int i = 0;<br>
+for (i = 0; i < V; ++i)<br>
+result[i] = new Edge();      <br>
+Arrays.sort(edge);      <br> 
+subset subsets[] = new subset[V];<br>
+for (i = 0; i < V; ++i)<br>
+subsets[i] = new subset();        <br>
+for (int v = 0; v < V; ++v) {<br>
+subsets[v].parent = v;<br>
+subsets[v].rank = 0;<br>
+}<br>
+i = 0;        <br>
+while (e < V - 1) {       <br> 
+Edge next_edge = edge[i++];     <br>
+int x = find(subsets, next_edge.source);<br>
+int y = find(subsets, next_edge.destination);  <br>     
+ if (x != y) {<br>
+result[e++] = next_edge;<br>
+Union(subsets, x, y);<br>
+}<br>
+}<br>
+System.out.println("Following are the edges in "<br>
++ "the constructed MST");<br>
+int minimumCost = 0;<br>
+for (i = 0; i < e; ++i) {<br>
+System.out.println(result[i].source + " --> "<br>
++ result[i].destination<br>
++ " == " + result[i].weight);<br>
+minimumCost += result[i].weight;<br>
+}<br>
+System.out.println("Minimum Cost of Spanning Tree: "<br>
++ minimumCost);<br>
+}<br>
+<br>
+public static void main(String[] args)<br>
+{<br>
+Scanner s = new Scanner(System.in);<br>
+System.out.println("Enter the number of Vertex:");<br>
+int V = s.nextInt(); // Number of vertices in graph<br>
+<br>
+System.out.println("Enter the number of Edges:");<br>
+int E = s.nextInt(); // Number of edges in graph<br>
+<br>
+kruskals graph = new kruskals(V, E);<br>
+<br>
+Scanner sc = new Scanner(System.in);<br>
+<br>
+for(int i=0 ; i<E ; i++)<br>
+{<br>
+System.out.println("Add Edge:"+i);<br>
+graph.edge[i].source =sc.nextInt();<br>
+graph.edge[i].destination =sc.nextInt();<br>
+graph.edge[i].weight = sc.nextInt();<br>
+}<br>
+<br>
+graph.KruskalMST();<br>
+}<br>
+}       <br> <br>
+6. To write a JAVA program to Program to implement Knapsack
+problem using Dynamic Programming<br> <br>
+Aim: Program to implement Knapsack problem using Greedy Approach<br>
+Alg-<br>
+Step 1:For each item, compute its value / weight ratio.<br>
+Step 2: Arrange all the items in decreasing order of their value / weight ratio.<br>
+Step 3: Start putting the items into the knapsack beginning from the item with the highest ratio.<br>
+Step 4: Put as many items as you can into the knapsack.<br>
+Step 5: Calculate the maximum value.<br><br>
+import java.util.*;<br>
+public class knapsack {<br>
+static int capacity;<br>
+static int n;<br>
+static int max(int a, int b)<br>
+{       <br>
+return (a > b) ? a : b;<br>
+}<br>
+<br>
+static void knapSack(int capapcity, int W[],<br>
+int P[], int n)<br>
+{<br>
+int i, w;<br>
+int K[][] = new int[n + 1][capacity + 1];<br>
+<br>
+// Build table K[][] in bottom up manner<br>
+for (i = 0; i <= n; i++)<br>
+{<br>
+for (w = 0; w <= capacity; w++)<br>
+{<br>
+if (i == 0 || w == 0)<br>
+K[i][w] = 0;<br>
+else if (W[i - 1] <= w)
+K[i][w]
+= max(P[i - 1]
++ K[i - 1][w - W[i - 1]],
+K[i - 1][w]);
+else
+K[i][w] = K[i - 1][w];
+}
+}       
+System.out.println("Maximum Profit is:"+K[n][capacity]);
+}
+
+public static void main(String[] args) {
+Scanner s=new Scanner(System.in);
+
+System.out.println("Enter the Capacity of Sack:");
+capacity=s.nextInt();
+
+System.out.println("Enter the Number of Items:");
+n=s.nextInt();
+int P[]=new int[10];
+int W[]=new int[10];
+
+System.out.println("Enter the Weight Array:");
+for(int i=0;i<n;i++)
+{
+W[i]=s.nextInt();
+}
+System.out.print("Weight Array:[ ");
+for(int j=0;j<n;j++)
+{
+System.out.print(W[j]+" ");        
+}
+System.out.println("]");
+System.out.println();
+System.out.println("Enter the Profit Array:");
+for(int i=0;i<n;i++)
+{
+P[i]=s.nextInt();
+}
+System.out.print("Profit Array:[ ");
+for(int j=0;j<n;j++)
+{
+System.out.print(P[j]+" ");
+}
+System.out.println("]");
+System.out.println();
+for(int i=0;i<n;i++)
+{
+for(int j=0;j<n;j++)
+{
+if(W[i]<W[j])
+{
+int temp=W[i];
+W[i]=W[j]; 
+W[j]=temp;
+int temp2=P[i];
+P[i]=P[j];
+P[j]=temp2;
+}
+}
+}
+System.out.print("Sorted array of weight is:[ ");<br>
+for(int i=0;i<n;i++)<br>
+{<br>
+System.out.print(W[i]+" ");<br>
+}<br>
+System.out.println("]");<br>
+System.out.print("Sorted array of Profit according to Weight is:[ ");<br>
+for(int i=0;i<n;i++)<br>
+{<br>
+System.out.print(P[i]+" ");<br>
+}<br>
+System.out.println("]");<br>
+System.out.println();<br>
+knapSack(capacity, W, P, n);<br>
+}<br>
+}        <br><br>
+        
+        
+        
+        
         
         </p>
     <button>Contact us</button>
