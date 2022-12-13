@@ -106,9 +106,9 @@ return mid; }<br>
 return -1;<br>
 }<br>
 }		<br><br>
-To write a JAVA program to perform merge sort using the divide
-and conquer technique.<br><br>
-Aim: Program to implement Merge Sort using Divide and Conquer<br><br>
+2. To write a JAVA program to perform merge sort using the divide
+and conquer technique.(time complexcity O(n*logn).)<br><br>
+Aim: Program to implement Merge Sort using Divide and Conquer<br>Alg-<br>
 Step 1:Split array A[1..n] in two and make copies of each half in arrays B[1.. n/2 ] and
 C[1..n/2 ]<br>
 Step 2: Sort arrays B and C<br>
@@ -181,7 +181,128 @@ ob.sort(arr, 0, arr.length - 1);<br>
 System.out.println("\nSorted array");<br>
 printArray(arr);<br>
 }<br>
-}	<br>							
+}<br><br>
+3. To write a JAVA program to perform Heap sort using the divide
+and conquer technique.[O(n log n)]<br><br>
+Aim: Program to implement Heap Sort<br>
+Alg-<br>
+Step 1 - Construct a Binary Tree with given list of Elements.<br>
+Step 2 - Transform the Binary Tree into max Heap.<br>
+Step 3 - Delete the root element from Max Heap using Heapify method.<br>
+Step 4 - Put the deleted element into the Sorted list.<br>
+Step 5 - Repeat the same until Max Heap becomes empty.<br>
+Step 6 - Display the sorted list.    <br><br>
+public class HeapSort {    <br>
+public void sort(int arr[])    <br>
+{    <br>
+int N = arr.length;    <br>
+for (int i = N / 2 - 1; i >= 0; i--)    <br>
+heapify(arr, N, i);    <br>
+for (int i = N - 1; i > 0; i--) {    <br>
+int temp = arr[0];    <br>
+arr[0] = arr[i];    <br>
+arr[i] = temp;    <br>
+heapify(arr, i, 0);    <br>
+}    <br>
+}    <br>
+void heapify(int arr[], int N, int i)    <br>
+{    <br>
+int largest = i;    <br>
+int l = 2 * i + 1;    <br>
+int r = 2 * i + 2;    <br>
+if (l < N && arr[l] > arr[largest])    <br>
+largest = l;    <br>
+if (r < N && arr[r] > arr[largest])    <br>
+largest = r;    <br>
+if (largest != i) {    <br>
+int swap = arr[i];    <br>
+arr[i] = arr[largest];    <br>
+arr[largest] = swap;    <br>
+heapify(arr, N, largest);    <br>
+}    <br>
+}    <br>
+static void printArray(int arr[])    <br>
+{    <br>
+int N = arr.length;    <br>
+for (int i = 0; i < N; ++i)    <br>
+System.out.print(arr[i] + " ");    <br>
+System.out.println();    <br>
+}    <br>
+public static void main(String args[])    <br>
+{    <br>
+int arr[] = { 12, 11, 13, 5, 6, 7 };          <br>
+int N = arr.length; <br>
+HeapSort ob = new HeapSort(); <br>
+ob.sort(arr); <br>
+System.out.println("Sorted array is"); <br>
+printArray(arr); <br>
+} <br>
+} <br><br>
+4. To write a JAVA program to implement Prims algorithm using
+Greedy method.<br><br>
+Aim: Program to implement Prim’s algorithm using Greedy method<br>
+Alg-<br>        
+Step 1:Start at any node in the graph<br> 
+Step 2:Mark the starting node as reached<br> 
+Step 3: Mark all the other nodes in the graph as unreached<br> 
+Step 4: Right now, the Minimum cost Spanning Tree (MST) consists of the starting node<br> 
+Step5: Find an edge e with minimum cost in the graph that connects:
+A reached node x to an unreached node y<br> 
+Step 6: Add the edge e found in the previous step to the Minimum cost Spanning Tree<br> 
+Step 7: Mark the unreached node y as reached<br> 
+Step 8: Repeat the steps 2 and 3 until all nodes in the graph have become reached<br><br>      
+import java.util.*;  <br>
+class Main  <br>
+{          <br>
+public void Prim(int G[][], int V)  <br>
+{ int no_edge; int  <br>
+selected[] = {0,0,0,0,0};  <br>
+no_edge = 0;  <br>
+selected[0] = 1; int  <br>
+cost = 0;  <br>
+System.out.println("Edge : Weight\n");  <br>
+  <br>
+while (no_edge < V - 1)   <br>         
+{ int min =9999; int x = 0;  <br>
+int y = 0;  <br>
+for (int i = 0; i < V; i++)  <br>
+{ if (selected[i]== 1)  <br>
+{  <br>
+for (int j = 0; j < V; j++)  <br>
+{  <br>
+if (selected[j] == 0 && G[i][j] != 0  <br>)
+{ if (min  <br>
+> G[i][j])  <br>
+{  <br>
+min = G[i][j];  <br>
+x = i; y = j;  <br>
+}  <br>
+}  <br>
+}  <br>
+}    <br>
+}  <br>
+System.out.print(x + " - " + y + " : " + G[x][y]+"\n");  <br>
+cost += G[x][y]; selected[y] = 1; no_edge++;  <br>
+}  <br>
+  <br>
+System.out.println("Cost: "+cost);  <br>
+}  <br>
+public static void main(String[] args)  <br>
+{  <br>
+Main g = new Main();  <br>
+
+int V = 5;  <br>
+  <br>
+int[][] G = { { 0, 9, 75, 7, 0 },  <br>
+{ 9, 0, 95, 19, 42 },  <br>
+{ 75, 95, 0, 200, 6 },  <br>
+{ 0, 19, 81, 0, 3 },  <br>
+{ 0, 42, 66, 1, 0 } };  <br>
+  <br>
+g.Prim(G, V);  <br>
+}  <br>
+}  <br>
+        
         </p>
     <button>Contact us</button>
     <hr>
